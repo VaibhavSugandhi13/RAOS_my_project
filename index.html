@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAOS | Neural Core v4.0</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Fira+Code&display=swap" rel="stylesheet">
+    <style>
+        :root { --neon: #00f2ff; --gold: #ffcc00; --bg: #000; --electric: #4dfbff; }
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: crosshair; }
+        body { background: var(--bg); color: #fff; font-family: 'Orbitron', sans-serif; overflow: hidden; }
+
+        .stage { position: fixed; inset: 0; background: #000; z-index: 1000; display: none; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        #stage-terminal { display: flex; font-family: 'Fira Code', monospace; background: radial-gradient(circle, #051010 0%, #000 100%); }
+        .log-container { width: 80%; max-width: 900px; display: flex; flex-direction: column; align-items: center; }
+        .log-line { font-size: 1.1rem; margin: 8px 0; opacity: 0; letter-spacing: 2px; font-weight: bold; animation: logFade 0.2s forwards; }
+
+        .c-cyan { color: #00f2ff; text-shadow: 0 0 10px #00f2ff; }
+        .c-green { color: #0f0; text-shadow: 0 0 10px #0f0; }
+        .c-yellow { color: #ffcc00; text-shadow: 0 0 10px #ffcc00; }
+        .c-red { color: #ff3333; text-shadow: 0 0 10px #ff3333; }
+        .c-white { color: #fff; text-shadow: 0 0 5px #fff; }
+
+        /* High-Impact Background Image */
+        #stage-quote { 
+            background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), 
+                        url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop'); 
+            background-size: cover; background-position: center;
+        }
+        
+        .quote-text { font-size: 2.5rem; letter-spacing: 15px; text-transform: uppercase; text-shadow: 0 0 40px var(--electric); }
+
+        /* Mentor Link Styling */
+        .sir-link { text-decoration: none; cursor: pointer; transition: 0.3s; }
+        .sir-name { font-size: 3rem; color: var(--neon); letter-spacing: 12px; text-shadow: 0 0 20px var(--neon); margin: 20px 0; display: block; }
+        .sir-link:hover .sir-name { color: var(--gold); text-shadow: 0 0 40px var(--gold); }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px; height: 100vh; overflow-y: auto; scrollbar-width: none; position: relative; }
+        .view { display: none; text-align: center; animation: viewIn 0.8s forwards; }
+
+        .grid-2x2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; max-width: 900px; margin: 50px auto; }
+        .node-btn { 
+            background: rgba(0, 242, 255, 0.03); border: 1px solid rgba(0, 242, 255, 0.2); 
+            padding: 50px 20px; color: #fff; font-family: 'Orbitron'; letter-spacing: 5px; 
+            cursor: pointer; transition: 0.4s; font-size: 1.1rem;
+        }
+        .node-btn:hover { background: var(--neon); color: #000; box-shadow: 0 0 50px var(--neon); transform: translateY(-5px); }
+
+        .founders { display: flex; justify-content: center; gap: 60px; margin: 40px 0; }
+        .f-box { text-align: center; cursor: pointer; transition: 0.4s; }
+        .f-img { width: 180px; height: 180px; border-radius: 50%; border: 2px solid #333; transition: 0.5s; }
+        .f-box:hover .f-img { border-color: var(--neon); box-shadow: 0 0 30px var(--neon); transform: scale(1.1); }
+        .f-label { margin-top: 15px; display: block; letter-spacing: 3px; font-size: 0.75rem; color: #fff; }
+
+        @keyframes logFade { to { opacity: 1; transform: scale(1); } from { opacity: 0; transform: scale(0.8); } }
+        @keyframes viewIn { from { opacity: 0; filter: blur(10px); } to { opacity: 1; filter: blur(0); } }
+
+        .btn-back { background: none; border: 1px solid #333; color: #555; padding: 12px 30px; cursor: pointer; font-family: 'Orbitron'; margin-top: 40px; transition: 0.3s; }
+        .btn-back:hover { color: var(--gold); border-color: var(--gold); }
+    </style>
+</head>
+<body>
+
+    <div id="stage-terminal" class="stage">
+        <div class="log-container" id="log-box"></div>
+    </div>
+    <div id="stage-permission" class="stage">
+        <div style="font-size: 2.8rem; color: var(--gold); letter-spacing: 12px;">ACCESS GRANTED</div>
+        <div style="letter-spacing: 8px; color: #fff; margin-top: 10px;">LEVEL 04 AUTH: VAIBHAV & GOWRI</div>
+    </div>
+    <div id="stage-quote" class="stage">
+        <h1 class="quote-text">INNOVATION<br>DISTINGUISHES<br>A LEADER.</h1>
+    </div>
+    <div id="stage-thanks" class="stage">
+        <div style="font-size: 4rem;">🙏</div>
+        <div style="color: #666; letter-spacing: 5px; font-size: 0.8rem;">SPECIAL THANKS TO OUR MENTOR</div>
+        <a href="https://www.linkedin.com/in/mohammad-rafi-lone-7895a05b/" target="_blank" class="sir-link">
+            <span class="sir-name">M. RAFI LONE SIR</span>
+        </a>
+    </div>
+
+    <div class="container">
+        <div id="v-landing" class="view">
+            <h1 style="font-size: 4.5rem; letter-spacing: 40px; margin-bottom: 20px; text-shadow: 0 0 30px var(--neon);">RAOS</h1>
+            <div class="founders">
+                <div class="f-box" onclick="window.open('https://www.linkedin.com/in/vaibhav-sugandhi-6a46a3300/', '_blank')">
+                    <img src="v.jpeg" class="f-img"><span class="f-label">VAIBHAV SUGANDHI</span>
+                </div>
+                <div class="f-box" onclick="window.open('https://www.linkedin.com/in/gowri-nandhan-8a87202b2/', '_blank')">
+                    <img src="g.jpeg" class="f-img"><span class="f-label">GOWRI NANDHAN</span>
+                </div>
+            </div>
+            <button class="node-btn" style="padding: 20px 80px;" onclick="showView('v-domains')">INITIALIZE INTERFACE</button>
+        </div>
+
+        <div id="v-domains" class="view">
+            <h2 style="color:var(--gold); letter-spacing: 15px; margin-bottom: 20px;">CORE SYSTEMS</h2>
+            <div class="grid-2x2">
+                <button class="node-btn" onclick="openSub('FINANCE', 'FRAUD DETECTION', 'ALGO-TRADING')">FINANCE</button>
+                <button class="node-btn" onclick="openSub('HEALTHCARE', 'GENETIC AI', 'BIO-SYNAPSE')">HEALTHCARE</button>
+                <button class="node-btn" onclick="openSub('CYBER', 'THREAT HUNTING', 'ENCRYPTION')">CYBERSECURITY</button>
+                <button class="node-btn" onclick="openSub('E-COMM', 'CHURN ANALYSIS', 'GROWTH ENGINE')">E-COMMERCE</button>
+            </div>
+            <button class="btn-back" onclick="showView('v-landing')">[ LOGOUT ]</button>
+        </div>
+
+        <div id="v-sub" class="view">
+            <h2 id="sub-header" style="color:var(--gold); margin-bottom: 40px; letter-spacing: 10px;"></h2>
+            <div class="grid-2x2" style="max-width: 800px;">
+                <button class="node-btn" id="s1" onclick="loadAnalysis(this.innerText)"></button>
+                <button class="node-btn" id="s2" onclick="loadAnalysis(this.innerText)"></button>
+            </div>
+            <button class="btn-back" onclick="showView('v-domains')">[ BACK ]</button>
+        </div>
+
+        <div id="v-analysis" class="view">
+            <h2 id="ana-title" style="text-align: left; color: var(--neon); margin-bottom: 20px;"></h2>
+            <div style="background:rgba(255,255,255,0.02); padding:25px; border-left:4px solid var(--neon); text-align:left; margin-bottom:30px;">
+                <p id="ana-sum" style="color:#ccc; line-height:1.8;"></p>
+            </div>
+            <table id="ana-table" style="width:100%; border-collapse:collapse; font-family:'Fira Code'; font-size:0.8rem; border:1px solid #333; margin-bottom: 30px;"></table>
+            
+            <table style="width:100%; border-collapse:collapse; background:rgba(255,204,0,0.03);">
+                <thead><tr style="color:var(--gold); border-bottom:2px solid var(--gold);"><th style="padding:15px; text-align:left;">METRIC</th><th style="padding:15px; text-align:left;">BASELINE</th><th style="padding:15px; text-align:left;">RAOS CORE</th></tr></thead>
+                <tbody id="ana-comp"></tbody>
+            </table>
+            
+            <div style="display:flex; gap:30px; margin-top:40px; justify-content:center;">
+                <button class="node-btn" id="dl-paper" style="padding:20px 40px; font-size:0.8rem;">RESEARCH PAPER</button>
+                <button class="node-btn" id="dl-report" style="padding:20px 40px; font-size:0.8rem; border-color:var(--gold); color:var(--gold);">AUDIT REPORT</button>
+            </div>
+            <button class="btn-back" onclick="showView('v-sub')">[ RETURN ]</button>
+        </div>
+    </div>
+
+    <script>
+        const API = "http://127.0.0.1:5001";
+        const bootData = [
+            { text: ">>> INITIALIZING RAOS NEURAL KERNEL <<<", color: "c-cyan" },
+            { text: "LOADING RESEARCH DATASETS...", color: "c-green" },
+            { text: "EXTRACTING GWO & CNN-GRU ARCHITECTURES...", color: "c-green" },
+            { text: "CORE VERSION 4.0.2 - STABLE BUILD", color: "c-yellow" },
+            { text: "BYPASSING SECURITY PROTOCOLS...", color: "c-red" },
+            { text: "FOUNDER AUTHENTICATION SUCCESSFUL!", color: "c-green" }
+        ];
+
+        async function runIntro() {
+            document.getElementById('stage-terminal').style.display = 'flex';
+            for(let log of bootData) {
+                let d = document.createElement('div'); d.className=`log-line ${log.color}`; d.innerText=log.text;
+                document.getElementById('log-box').appendChild(d); await new Promise(r=>setTimeout(r, 500));
+            }
+            await new Promise(r=>setTimeout(r, 1000));
+            document.getElementById('stage-terminal').style.display = 'none';
+            document.getElementById('stage-permission').style.display = 'flex';
+            await new Promise(r=>setTimeout(r, 1800));
+            document.getElementById('stage-permission').style.display = 'none';
+            document.getElementById('stage-quote').style.display = 'flex';
+            await new Promise(r=>setTimeout(r, 2200));
+            document.getElementById('stage-quote').style.display = 'none';
+            document.getElementById('stage-thanks').style.display = 'flex';
+            await new Promise(r=>setTimeout(r, 3000));
+            document.getElementById('stage-thanks').style.display = 'none';
+            showView('v-landing');
+        }
+
+        window.onload = runIntro;
+
+        function showView(id) {
+            document.querySelectorAll('.view').forEach(v => v.style.display = 'none');
+            document.getElementById(id).style.display = 'block';
+        }
+
+        function openSub(main, s1, s2) {
+            showView('v-sub');
+            document.getElementById('sub-header').innerText = main;
+            document.getElementById('s1').innerText = s1;
+            document.getElementById('s2').innerText = s2;
+        }
+
+        async function loadAnalysis(name) {
+            showView('v-analysis');
+            document.getElementById('ana-title').innerText = name;
+            const res = await fetch(`${API}/get_analysis`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({sub_domain: name})
+            });
+            const d = await res.json();
+            document.getElementById('ana-sum').innerText = d.summary;
+            
+            let t = `<tr>${Object.keys(d.dataset[0]).map(k=>`<th style="padding:12px; border:1px solid #333;">${k}</th>`).join('')}</tr>`;
+            d.dataset.forEach(r => t += `<tr>${Object.values(r).map(v=>`<td style="padding:12px; border:1px solid #333; color:#0f0;">${v}</td>`).join('')}</tr>`);
+            document.getElementById('ana-table').innerHTML = t;
+
+            // Mapping Research Methods to Table
+            document.getElementById('ana-comp').innerHTML = `
+                <tr><td style="padding:15px;">Methodology</td><td style="padding:15px;">${d.base_meth}</td><td style="padding:15px; color:var(--neon); font-weight:bold;">${d.meth}</td></tr>
+                <tr><td style="padding:15px;">Accuracy</td><td style="padding:15px;">${d.paper_acc}</td><td style="padding:15px; color:var(--neon); font-weight:bold;">${d.raos_acc}</td></tr>
+                <tr><td style="padding:15px;">Latency</td><td style="padding:15px;">~320ms</td><td style="padding:15px; color:var(--neon); font-weight:bold;">${d.latency}</td></tr>
+                <tr><td style="padding:15px;">Scalability</td><td style="padding:15px;">Baseline</td><td style="padding:15px; color:var(--neon); font-weight:bold;">${d.scalability}</td></tr>`;
+            
+            document.getElementById('dl-paper').onclick = () => window.open(`${API}/download_paper/${d.local_paper}`);
+            document.getElementById('dl-report').onclick = () => window.open(`${API}/generate_report/${name}`);
+        }
+    </script>
+</body>
+</html>
